@@ -31,6 +31,8 @@ indexing:
 webhooks:
   batchSize: ""
 
+envFrom: []
+
 database:
   type: ""
   sqlite:

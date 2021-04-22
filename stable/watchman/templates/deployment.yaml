@@ -31,6 +31,7 @@ spec:
           args:
             - -http.addr=:{{ .Values.service.http.port }}
             - -admin.addr=:{{ .Values.service.admin.port }}
+          envFrom: {{ toYaml .Values.envFrom | nindent 10 }}
           env:
             # Misc Server
             - name: LOG_FORMAT
@@ -80,10 +81,14 @@ spec:
               value: {{ .Values.database.mysql.address }}
             - name: MYSQL_DATABASE
               value: {{ .Values.database.mysql.database }}
+            {{- if .Values.database.mysql.password != "" }}
             - name: MYSQL_PASSWORD
               value: {{ .Values.database.mysql.password }} # TODO(adam): read from secret?
+            {{- end }}
+            {{- if .Values.database.mysql.username != "" }}
             - name: MYSQL_USER
               value: {{ .Values.database.mysql.username }} # TODO(adam): read from secret?
+            {{- end }}
             - name: MYSQL_TIMEOUT
               value: {{ .Values.database.mysql.timeout }}
             - name: SQLITE_DB_PATH
